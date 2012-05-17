@@ -1,0 +1,18 @@
+<gente>
+    <persona>
+        <nombre>Pepe</nombre>
+        <apellido>Perez</apellido>
+        <sexo>Hombre</sexo>
+        <direccion>C/ Fuego, 23</direccion>
+        <ciudad>Alcobendas</ciudad>
+        <provincia>Madrid</provincia>
+    </persona>
+    <persona>
+        <nombre>Mary</nombre>
+        <apellido>Swanson</apellido>
+        <sexo>Mujer</sexo>
+        <direccion>Millenium Forum, 1</direccion>
+        <ciudad>Norwich</ciudad>
+        <provincia>Norfolk</provincia>
+    </persona>
+</gente>
