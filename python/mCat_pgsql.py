@@ -82,7 +82,7 @@ def crearTablas(db):
     conexion.autocommit = 1
     cursor = conexion.cursor()
 
-    sql = 'CREATE TABLE mp3 (titulo VARCHAR(255), artista VARCHAR(255), album VARCHAR(255), bitrate INT, genero VARCHAR(20),'
+    sql = 'CREATE TABLE mp3 (titulo VARCHAR(255), artista VARCHAR(255), album VARCHAR(255), bitrate INT, frecuencia INT, genero VARCHAR(20),'
     sql = sql + ' duracion VARCHAR(8), pista SMALLINT, ano SMALLINT, tamano INT, ruta VARCHAR(255), fichero VARCHAR(255));'
     cursor.execute(sql)
     print 'Creada tabla "mp3"'
@@ -129,6 +129,7 @@ def RecorrerLaRuta(rutamusica):
             _genero=''
             _ano=0
             _bitrate=0
+            _frecuencia=0
             _duracion=''
             _tamano=0
             _pista=0
@@ -162,6 +163,8 @@ def RecorrerLaRuta(rutamusica):
                         _genero = audio.get(clave)
                 # Bitrate
                 _bitrate = audio.info.bitrate
+                # Frecuencia de muestreo
+                _frecuencia = audio.info.sample_rate
                 # Duración
                 _duracion = SegundosAHorasMinutosSegundos(audio.info.length)
                 # Tamaño del fichero
@@ -171,7 +174,7 @@ def RecorrerLaRuta(rutamusica):
                 # Nombre del fichero
                 _fichero = fichero.replace("'","\\\'") # Escapamos los apóstrofos
                 # Escribimos en la base de datos
-                sql = 'INSERT INTO mp3 (titulo, artista, album, genero, ano, pista, bitrate, duracion, tamano, ruta, fichero) VALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%d\',\'%d\',\'%d\',\'%s\',\'%d\',\'%s\',\'%s\')' % (_titulo, _artista, _album, _genero, _ano, _pista, _bitrate, _duracion, _tamano, _ruta, _fichero)
+                sql = 'INSERT INTO mp3 (titulo, artista, album, genero, ano, pista, bitrate, frecuencia, duracion, tamano, ruta, fichero) VALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%d\',\'%d\',\'%d\',\'%d\',\'%s\',\'%d\',\'%s\',\'%s\')' % (_titulo, _artista, _album, _genero, _ano, _pista, _bitrate, _frecuencia, _duracion, _tamano, _ruta, _fichero)
                 cursor.execute(sql)
             except ValueError:
                 cont_errores += 1
@@ -179,7 +182,7 @@ def RecorrerLaRuta(rutamusica):
                 log_error.writelines('VALOR INCORRECTO - Fichero: %s\n' % fichero_con_ruta)
                 log_error.writelines('Título: %s - Artista: %s - Álbum: %s\n' % (_titulo_1, _artista_1, _album_1))
                 log_error.writelines('Género: %s - Año: %d - Pista: %d\n' % (_genero, _ano, _pista))
-                log_error.writelines('Bitrate: %d - Duración: %s\n' % (_bitrate, _duracion))
+                log_error.writelines('Bitrate: %d - Frecuencia: %d - Duración: %s\n' % (_bitrate, _frecuencia, _duracion))
                 log_error.writelines('===========================================\n')
             except TypeError:
                 cont_errores += 1
@@ -187,7 +190,7 @@ def RecorrerLaRuta(rutamusica):
                 log_error.writelines('TIPO INCORRECTO - Fichero: %s\n' % fichero_con_ruta)
                 log_error.writelines('Título: %s - Artista: %s - Álbum: %s\n' % (_titulo_1, _artista_1, _album_1))
                 log_error.writelines('Género: %s - Año: %d - Pista: %d\n' % (_genero, _ano, _pista))
-                log_error.writelines('Bitrate: %d - Duración: %s\n' % (_bitrate, _duracion))
+                log_error.writelines('Bitrate: %d - Frecuencia: %d - Duración: %s\n' % (_bitrate, _frecuencia, _duracion))
                 log_error.writelines('===========================================\n')
             except:
                 cont_errores += 1
